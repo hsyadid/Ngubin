@@ -1,12 +1,14 @@
 # Ngubin
+
 ## PWS
+
 Web dapat diakses melalui <https://hubban-syadid-ngubin.pbp.cs.ui.ac.id/>
 
-
 ## Soal Pengantar
+
 **jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial) ?**
 
-> Cara saya untuk mengerjakan tugas 2 ini, bukan hanya mengikuti arahan yang telah diberikan di deskripsi, tapi saya mengeksplorasi lebih dari dokumentasi agar nanti kedepannya saya bukan hanya bisa meniru apps seperti ini tetapi juga dapat memodifikasi sesuai dengan keinginan saya. Hal hal yang saya eksplorasi adalah berhubungan dengan best practice dari Django, built in function apa saja yang bisa saya gunakan, dan sebagainya
+> Cara saya untuk mengerjakan tugas 2 ini, bukan hanya mengikuti arahan yang telah diberikan di deskripsi, tapi saya mengeksplorasi lebih dari dokumentasi agar nanti kedepannya saya bukan hanya bisa meniru apps seperti ini tetapi juga dapat memodifikasi sesuai dengan keinginan saya. Hal hal yang saya eksplorasi adalah berhubungan dengan best practice dari Django, built in function apa saja yang bisa saya gunakan, dan sebagainya.
 
 **Buatlah bagan yang berisi request client ke web aplikasi berbasis Django beserta responnya dan jelaskan pada bagan tersebut kaitan antara urls.py, views.py, models.py, dan berkas html ?**
 
@@ -22,7 +24,4 @@ Web dapat diakses melalui <https://hubban-syadid-ngubin.pbp.cs.ui.ac.id/>
 
 **Mengapa model pada Django disebut sebagai ORM?**
 
-> Dikarenakan Django memiliki fitur untuk website langsung berinteraksi secara langsung dengan database tanpa kalian harus tau cara menggunakan SQL, dan membuat skema tabelnya, abstraksi SQL seperti ini lah yang menjadi fitur daya tarik dari Django
-
-
-
+> Dikarenakan Django memiliki fitur untuk website langsung berinteraksi secara langsung dengan database tanpa kalian harus tau cara menggunakan SQL, dan membuat skema tabelnya, abstraksi SQL seperti ini lah yang menjadi fitur daya tarik dari Django.
