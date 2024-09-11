@@ -124,7 +124,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = '/static/'
-ALLOWED_HOSTS = ["localhost", "127.0.0.1", "hubban-syadid-ngubin.pbp.cs.ui.ac.id"]
+ALLOWED_HOSTS = ["localhost", "127.0.0.1", "hubban-syadid-Ngubin.pbp.cs.ui.ac.id"]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
