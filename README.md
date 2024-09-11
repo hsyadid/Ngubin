@@ -1,6 +1,6 @@
 # Ngubin
 ## PWS
-Web dapat diakses melalui <link.com>
+Web dapat diakses melalui <https://hubban-syadid-ngubin.pbp.cs.ui.ac.id/>
 
 
 ## Soal Pengantar
