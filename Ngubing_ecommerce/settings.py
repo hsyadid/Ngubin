@@ -18,10 +18,8 @@ import os
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 #to store images
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-if not os.path.exists(MEDIA_ROOT):
-    os.makedirs(MEDIA_ROOT)
-
+MEDIA_ROOT = ""
+MEDIA_URL = ""
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
@@ -62,7 +60,7 @@ ROOT_URLCONF = 'Ngubing_ecommerce.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -124,7 +122,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = '/static/'
-ALLOWED_HOSTS = ["localhost", "127.0.0.1", "hubban-syadid-Ngubin.pbp.cs.ui.ac.id"]
+ALLOWED_HOSTS = ["localhost", "127.0.0.1", "hubban-syadid-ngubin.pbp.cs.ui.ac.id"]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field

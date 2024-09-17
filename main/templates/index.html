@@ -1,18 +1,37 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'style.css' %}">
-    <title>Landing Page</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% block content %}
+
     <h1>{{nama_apps}}</h1>
     <div class="detail_info">
         <p>{{nama_mahasiswa}}</p>
         <p>{{kelas}}</p>
     </div>
-        
-</body>
-</html>
+
+    {% if not Products %}
+    <p>There is no product</p>
+    {% else %}
+    <table>
+        <tr>
+            <th>name</th>
+            <th>price</th>
+            <th>category</th>
+            <th>description</th>
+            <th>image</th>
+        </tr>
+        {% for product in Products %}
+    <tr>
+        <td>{{product.name}}</td>
+        <td>{{product.price}}</td>
+        <td>{{product.category}}</td>
+        <td>{{product.description}}</td>
+        <td>{{product.image}}</td>
+    </tr>
+    {% endfor %}
+    </table>
+    {% endif %}
+
+    <a href="{% url 'main:create_product' %}">
+        <button>Add Product</button>
+      </a>
+
+{% endblock content %}
