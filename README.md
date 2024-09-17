@@ -2,7 +2,7 @@
 
 ## PWS
 
-Web dapat diakses melalui <https://hubban-syadid-ngubin.pbp.cs.ui.ac.id/>
+Web dapat diakses melalui <https://hubban-syadid-ngubin.pbp.cs.ui.ac.id//>
 
 ## Soal Pengantar
 
