@@ -1,41 +1,49 @@
 {% extends 'base.html' %}
+{% load static %}
+{% block meta %}
+<title>Admin Shop</title>
+{% endblock meta %}
 {% block content %}
-<h1>{{nama_apps}}</h1>
-<div class="detail_info">
-    <p>{{nama_mahasiswa}}</p>
-    <p>{{kelas}}</p>
+{% include 'navbar.html' %}
+<div class="overflow-x-hidden px-4 md:px-8 pb-8 pt-24 min-h-screen bg-[#e0f6e9] flex flex-col items-center justify-center ">
+
+    <div class="h-[350px] w-[85%] rounded-3xl bg-custom-radial mt-4 pt-10 flex justify-around gap-6 relative z-0 "> <!-- Tambahkan relative dan z-index -->
+        <div class="hidden md:block">
+            <div class="mb-4 w-22">
+                <div class="bg-[#2ebdaa] text-white font-bold py-2 px-4 rounded-lg transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105">
+                    <h1 class="text-md font-sm text-white">{{last_login}}</h1> <!-- Pastikan teks putih -->
+                </div>
+            </div>
+        </div>
+        
+        <!-- Nama mahasiswa -->
+        <div class="-mt-4">
+            <div class="flex rounded-md items-center py-2 px-4 w-fit ">
+                <h1 class="text-white text-[50px] font-extrabold">{{nama_mahasiswa}}</h1> <!-- Pastikan teks putih -->
+            </div>
+        </div>
+
+        <div class="flex justify-end mb-6 w-150px h-10">
+            <a href="{% url 'main:create_product' %}" class="animate-pulse bg-[#2ebdaa] hover:bg-[#008776] text-white font-bold py-2 px-4 rounded-lg transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105">
+                Add New Product
+            </a>
+        </div>
+    </div>
+
+    <!-- Atur elemen grid dengan overlap -->
+    <div class="relative z-5 -mt-[220px] gap-6 mb-6 "> <!-- z-index lebih rendah untuk tumpang tindih -->
+        {% if not Products %}
+        <div class="flex flex-col items-center justify-center min-h-[24rem] p-6 -mt-[90px]">
+            <img src="{% static 'images/sad_face.png' %}" alt="Sad face" class="w-32 h-32 w-fit "/>
+            <p class="text-center text-white mt-4">Belum ada data product.</p> <!-- Pastikan teks putih -->
+        </div>
+        {% else %}
+        <div class=" grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-[50px] w-full max-w-6xl">
+            {% for product in Products %}
+                {% include 'card_product.html' with product=product %}
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
 </div>
-
-{% if not Products %}
-<p>There is no product</p>
-{% else %}
-<table>
-    <tr>
-        <th>name</th>
-        <th>price</th>
-        <th>category</th>
-        <th>description</th>
-    </tr>
-    {% for product in Products %}
-<tr>
-    <td>{{product.name}}</td>
-    <td>{{product.price}}</td>
-    <td>{{product.category}}</td>
-    <td>{{product.description}}</td>
-</tr>
-{% endfor %}
-</table>
-{% endif %}
-
-<h5>Sesi terakhir login: {{ last_login }}</h5>
-
-<a href="{% url 'main:create_product' %}">
-    <button>Add Product</button>
-</a>
-
-<a href="{% url 'main:logout' %}">
-<button>Logout</button>
-</a>
-  
-
 {% endblock content %}

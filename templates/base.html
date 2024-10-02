@@ -4,10 +4,28 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    {% block meta %} {% endblock meta %}
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            backgroundImage: {
+        'custom-radial':'radial-gradient(circle at 50% 0%, rgba(46,189,170,1) 7%, rgba(99,229,184,1) 50%, rgba(117,218,149,1) 87%)',
+        'product-radial' : 'radial-gradient(circle, rgba(17,136,121,1) 7%, rgba(99,229,184,1) 50%, rgba(117,218,149,1) 87%)'
+           },
+          }
+        }
+      }
+    </script>
+    {% block meta %}
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% endblock meta %}
+    <link rel="stylesheet" href="{% static 'css/global.css' %}"/>
   </head>
 
   <body>
-    {% block content %} {% endblock content %}
+    {% block content %}
+    {% endblock content %}
   </body>
 </html>

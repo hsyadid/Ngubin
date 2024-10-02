@@ -1,0 +1,72 @@
+{% load static %}
+
+<nav class="bg-[#2ebdaa] shadow-lg fixed top-0 left-0 z-40 w-full">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between items-center h-16">
+      
+      <!-- Bagian kiri -->
+      <div class="flex-1 flex items-center justify-start">
+        <h1 class="text-2xl sm:text-4xl font-bold text-white">Ngubin</h1>
+      </div>
+
+      <!-- Gambar di tengah -->
+      <div class="absolute left-1/2 transform -translate-x-1/2 top-2 md:static md:translate-x-0 md:left-0 md:top-0">
+        <div class="h-[87px] w-[87px] flex items-center justify-center rounded-full bg-[#2ebdaa] hidden md:flex">
+          <img src="{% static 'images/logo_tile.png' %}" alt="Logo" class="h-16 w-16 rounded-full">
+        </div>
+      </div>
+      
+      <!-- Bagian kanan: tombol logout/login -->
+      <div class="hidden md:flex flex-1 justify-end items-center space-x-4">
+        {% if user.is_authenticated %}
+          <a href="{% url 'main:logout' %}" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded transition duration-300">
+            Logout
+          </a>
+        {% else %}
+          <a href="{% url 'main:login' %}" class="bg-blue-500 hover:bg-blue-600 text-black font-bold py-2 px-4 rounded transition duration-300">
+            Login
+          </a>
+          <a href="{% url 'main:register' %}" class="bg-green-500 hover:bg-green-600 text-black font-bold py-2 px-4 rounded transition duration-300">
+            Register
+          </a>
+        {% endif %}
+      </div>
+
+      <!-- Tombol menu untuk mobile -->
+      <div class="md:hidden flex items-center">
+        <button class="mobile-menu-button">
+          <svg class="w-6 h-6 text-white" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+            <path d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile menu -->
+  <div class="mobile-menu hidden md:hidden">
+    <div class="px-2 pt-2 pb-3 space-y-1">
+      {% if user.is_authenticated %}
+        <a href="{% url 'main:logout' %}" class="block text-center bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded transition duration-300">
+          Logout
+        </a>
+      {% else %}
+        <a href="{% url 'main:login' %}" class="block text-center bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded transition duration-300">
+          Login
+        </a>
+        <a href="{% url 'main:register' %}" class="block text-center bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded transition duration-300">
+          Register
+        </a>
+      {% endif %}
+    </div>
+  </div>
+
+  <script>
+    const btn = document.querySelector("button.mobile-menu-button");
+    const menu = document.querySelector(".mobile-menu");
+
+    btn.addEventListener("click", () => {
+      menu.classList.toggle("hidden");
+    });
+  </script>
+</nav>

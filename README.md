@@ -414,3 +414,64 @@ import os
 PRODUCTION = os.getenv("PRODUCTION", False)
 DEBUG = not PRODUCTION
 ```
+
+# SOAL TUGAS 5
+
+## Jika terdapat beberapa CSS selector untuk suatu elemen HTML, jelaskan urutan prioritas pengambilan CSS selector tersebut!
+
+> Pada CSS ada beberapa selector yang lebih yang diprioritaskan saat anda memilih elemen untuk diberikan style, diantara selector nya dari yang lebih didahulukan dan yang paling tidak didahulukan :
+
+1. Inline styles
+2. ID selector (Mengunakan : #)
+3. Class Selector (Mengunakan : .)
+4. Element selector
+5. Universal selectors
+
+> Jika dua selector dengan specificity yang sama akan di apply yang terlebih dahulu di deklarasikan
+
+## Mengapa responsive design menjadi konsep yang penting dalam pengembangan aplikasi web? Berikan contoh aplikasi yang sudah dan belum menerapkan responsive design!
+
+> Responsive menjadi konsep yang penting dalam pengembangan aplikasi web karena semakin banyak pengguna mengakses internet melalui berbagai perangkat dengan ukuran layar yang berbeda. Dengan menerapkan responsive design, aplikasi web dapat menyesuaikan tampilan dan tata letaknya secara otomatis sesuai dengan ukuran layar, sehingga pengalaman pengguna menjadi lebih optimal. Contoh aplikasi yang sudah menerapkan responsive design adalah Twitter, di mana tampilan antarmuka berubah sesuai dengan perangkat yang digunakan, memudahkan pengguna dalam menjelajahi konten. Di sisi lain, aplikasi seperti siak yang belum sepenuhnya menerapkan responsive design dapat membuat pengalaman pengguna menjadi kurang nyaman.
+
+## Jelaskan perbedaan antara margin, border, dan padding, serta cara untuk mengimplementasikan ketiga hal tersebut!
+
+> Margin, border, dan padding adalah elemen css ygy mengatur tata letak dan tampilan elemen pada halaman web. Margin merujuk pada ruang di luar batas elemen, berfungsi untuk menciptakan jarak antara elemen satu dengan yang lainnya. Sebagai contoh,
+
+```
+.element {
+    margin: 20px; /* Jarak 20px di semua sisi */
+}
+```
+
+> Border adalah garis yang mengelilingi elemen, yang dapat diatur ketebalan, jenis, dan warnanya, memberikan definisi visual pada elemen.
+
+```
+.element {
+    border: 2px solid black; /* Border dengan ketebalan 2px, jenis solid, dan warna hitam */
+}
+```
+
+> padding adalah ruang di dalam batas elemen, antara konten seperti teks atau gambar dan border, sehingga konten tidak terjepit di tepi elemen. Dengan mengatur padding, kita dapat memastikan bahwa konten memiliki ruang yang cukup di sekitarnya.
+
+```
+.element {
+    padding: 15px; /* Ruang 15px di semua sisi antara konten dan border */
+}
+
+```
+
+## Jelaskan konsep flex box dan grid layout beserta kegunaannya!
+
+> Flexbox dan Grid Layout adalah dua model tata letak CSS yang dirancang untuk memudahkan pengaturan elemen di dalam halaman web.
+
+> Flexbox (Flexible Box Layout) adalah metode tata letak satu dimensi yang memungkinkan elemen untuk disusun secara horizontal atau vertikal dalam sebuah wadah. Dengan menggunakan flexbox, kita dapat dengan mudah mengatur ruang, perataan, dan urutan elemen, serta menciptakan desain responsif tanpa memerlukan banyak kode.
+
+> Sementara itu, Grid Layout adalah metode tata letak dua dimensi yang memungkinkan kita untuk membuat struktur grid dengan baris dan kolom. Grid sangat ideal untuk desain yang lebih kompleks di mana kita ingin mengatur elemen dalam bentuk tabel, seperti layout halaman yang memiliki header, konten utama, dan sidebar.
+
+## Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial)!
+
+1. Menginisiasikan Tailwind ke dalam header di dalam `base.html`
+1. Membuat function edit_product & delete_product pada file `view`
+1. Menyambungkan function yang telah di buat kedalam `urls`
+1. Membuat dan memberikan style `navbar` yang nantinya akan di implementasikan ke semua page
+1. Memberikan style css untuk global

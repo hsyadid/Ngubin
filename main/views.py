@@ -21,7 +21,8 @@ def home(request):
         'nama_apps': 'Ngubin E-commerce',
         'nama_mahasiswa': request.user.username,
         'kelas' : 'PBP-A',
-        'Products': Products,
+        'NPM' : '1808561061',
+        'Products': Products, 
         'last_login': request.COOKIES['last_login'],
     }
 
@@ -62,7 +63,7 @@ def logout_user(request):
     return response
 
 
-# TO CREATE PRODUCT
+# CRUD FUNCTION
 def create_product(request):
     form = ProductForm(request.POST or None)
 
@@ -81,7 +82,27 @@ def create_product(request):
 
     return render(request, 'create_product.html', detail)
 
+def edit_product(request, id):
+    # Get mood entry berdasarkan id
+    getProduct = Product.objects.get(pk = id)
 
+    # Set mood entry sebagai instance dari form
+    form = ProductForm(request.POST or None, instance=getProduct)
+
+    if form.is_valid() and request.method == "POST":
+        # Simpan form dan kembali ke halaman awal
+        form.save()
+        return HttpResponseRedirect(reverse('main:home'))
+
+    context = {'form': form}
+    return render(request, "edit_product.html", context)
+
+def delete_product(request, id):
+    getProduct = Product.objects.get(pk = id)
+    # Hapus getProduct
+    getProduct.delete()
+    # Kembali ke halaman awal
+    return HttpResponseRedirect(reverse('main:home'))
 
 # TO INTERACT WITH DATABASE
 def show_xml_data(request):
