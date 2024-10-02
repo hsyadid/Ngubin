@@ -470,8 +470,21 @@ DEBUG = not PRODUCTION
 
 ## Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial)!
 
-1. Menginisiasikan Tailwind ke dalam header di dalam `base.html`
-1. Membuat function edit_product & delete_product pada file `view`
-1. Menyambungkan function yang telah di buat kedalam `urls`
-1. Membuat dan memberikan style `navbar` yang nantinya akan di implementasikan ke semua page
-1. Memberikan style css untuk global
+1.Berikut adalah penjelasan secara singkat tentang langkah-langkah yang telah kamu sebutkan:
+
+1. **Menginisialisasi Tailwind di Header `base.html`:**
+   Tailwind CSS adalah framework yang mempermudah styling halaman web dengan menggunakan utility classes. Menginisialisasi Tailwind di `base.html` dengan cara menambahkan referensi ke file CSS Tailwind di bagian header. Hal ini memastikan bahwa semua halaman yang mewarisi template `base.html` bisa menggunakan Tailwind untuk styling secara global.
+
+2. **Membuat Function `edit_product` dan `delete_product` di `views.py`:**
+   Function ini dibuat untuk menangani aksi edit dan hapus produk. Function `edit_product` memungkinkan pengguna mengubah detail produk melalui form yang sudah terisi sebelumnya, sementara `delete_product` bertugas untuk menghapus produk yang dipilih dari database setelah pengguna mengonfirmasi.
+
+3. **Menyambungkan Function ke `urls.py`:**
+   Setelah function untuk mengedit dan menghapus produk dibuat, kita harus menyambungkannya dengan URL yang spesifik. Dengan menambahkan jalur URL ini, kita memastikan bahwa pengguna bisa mengakses halaman edit atau hapus produk dengan cara mengunjungi URL yang sesuai di aplikasi web.
+
+4. **Membuat dan Memberikan Style pada `Navbar`:**
+   Navbar adalah elemen navigasi yang muncul di setiap halaman. Dengan merancang navbar di `main.html`, kita memastikan bahwa struktur dan gaya navigasi konsisten di seluruh halaman situs. Navbar ini kemudian di-styling menggunakan utility classes dari Tailwind agar tampak menarik dan responsif.
+
+5. **Memberikan Style CSS Global:**
+   Selain menggunakan Tailwind, kamu mungkin ingin menambahkan gaya kustom global untuk aplikasi. CSS global ini diterapkan di seluruh halaman untuk memastikan konsistensi dalam tampilan, seperti pengaturan font, warna latar, dan gaya link. Gaya ini membantu memberikan pengalaman pengguna yang seragam di seluruh aplikasi web.
+
+Langkah-langkah ini memastikan bahwa aplikasi web memiliki desain yang konsisten, mudah digunakan, dan dapat diakses dengan baik oleh pengguna melalui fitur edit dan hapus produk.
