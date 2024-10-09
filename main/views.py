@@ -9,6 +9,8 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib import messages
 from django.urls import reverse
 from django.http import HttpResponseRedirect
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
 import datetime
 
 
@@ -16,13 +18,11 @@ import datetime
 #SHOW MAIN PAGE
 @login_required(login_url='/login/')
 def home(request):
-    Products = Product.objects.filter(user=request.user)
     detail = {
         'nama_apps': 'Ngubin E-commerce',
         'nama_mahasiswa': request.user.username,
         'kelas' : 'PBP-A',
         'NPM' : '1808561061',
-        'Products': Products, 
         'last_login': request.COOKIES['last_login'],
     }
 
@@ -45,14 +45,17 @@ def login_user(request):
       form = AuthenticationForm(data=request.POST)
 
       if form.is_valid():
-        user = form.get_user()
-        login(request, user)
-        response = HttpResponseRedirect(reverse("main:home"))
-        response.set_cookie('last_login', str(datetime.datetime.now()))
-        return response
+          user = form.get_user()
+          login(request, user)
+          response = HttpResponseRedirect(reverse("main:home"))
+          response.set_cookie('last_login', str(datetime.datetime.now()))
+          return response
+      else:   
+          messages.error(request, "Invalid username or password. Please try again.")
 
    else:
       form = AuthenticationForm(request)
+
    context = {'form': form}
    return render(request, 'login.html', context)
 
@@ -82,6 +85,24 @@ def create_product(request):
 
     return render(request, 'create_product.html', detail)
 
+@csrf_exempt
+@require_POST
+def create_product_ajax(request):
+    name = request.POST.get("name")
+    price = request.POST.get("price")
+    category = request.POST.get("category")
+    description = request.POST.get("description")
+    user = request.user
+
+    newProduct = Product(
+        name=name, price=price,
+        category=category,description=description,
+        user=user
+    )
+    newProduct.save()
+
+    return HttpResponse(b"CREATED", status=201)
+
 def edit_product(request, id):
     # Get mood entry berdasarkan id
     getProduct = Product.objects.get(pk = id)
@@ -106,11 +127,11 @@ def delete_product(request, id):
 
 # TO INTERACT WITH DATABASE
 def show_xml_data(request):
-    data = Product.objects.all()
+    data = Product.objects.filter(user=request.user)
     return HttpResponse(serializers.serialize("xml", data), content_type="application/xml")
 
 def show_json_data(request):
-    data = Product.objects.all()
+    data = Product.objects.filter(user=request.user)
     return HttpResponse(serializers.serialize("json", data), content_type="application/json")
 
 def show_xml_by_id(request, id):

@@ -485,6 +485,297 @@ DEBUG = not PRODUCTION
    Navbar adalah elemen navigasi yang muncul di setiap halaman. Dengan merancang navbar di `main.html`, kita memastikan bahwa struktur dan gaya navigasi konsisten di seluruh halaman situs. Navbar ini kemudian di-styling menggunakan utility classes dari Tailwind agar tampak menarik dan responsif.
 
 5. **Memberikan Style CSS Global:**
-   Selain menggunakan Tailwind, kamu mungkin ingin menambahkan gaya kustom global untuk aplikasi. CSS global ini diterapkan di seluruh halaman untuk memastikan konsistensi dalam tampilan, seperti pengaturan font, warna latar, dan gaya link. Gaya ini membantu memberikan pengalaman pengguna yang seragam di seluruh aplikasi web.
+   Selain menggunakan Tailwind, saya menambahkan gaya kustom global untuk aplikasi. CSS global ini diterapkan di seluruh halaman untuk memastikan konsistensi dalam tampilan, seperti pengaturan font, warna latar, dan gaya link. Gaya ini membantu memberikan pengalaman pengguna yang seragam di seluruh aplikasi web.
 
-Langkah-langkah ini memastikan bahwa aplikasi web memiliki desain yang konsisten, mudah digunakan, dan dapat diakses dengan baik oleh pengguna melalui fitur edit dan hapus produk.
+# SOAL TUGAS 6
+
+## 1. Jelaskan manfaat dari penggunaan JavaScript dalam pengembangan aplikasi web!
+
+> Penggunaan JavaScript dalam pengembangan aplikasi web memiliki banyak manfaat yang pertama, JavaScript memungkinkan pengembang untuk menciptakan pengalaman pengguna yang interaktif dan responsif. Dengan kemampuan untuk memanipulasi elemen DOM (Document Object Model) secara real-time, JavaScript memungkinkan pembuatan elemen interaktif seperti tombol, formulir, dan efek animasi yang meningkatkan keterlibatan pengguna. Selain itu, JavaScript bekerja di sisi klien, artinya sebagian besar proses dilakukan di dalam browser tanpa perlu berulang kali berkomunikasi dengan server. Ini tidak hanya mempercepat waktu respon aplikasi, tetapi juga mengurangi beban server dan bandwidth yang diperlukan untuk mentransfer data.
+
+> JavaScript juga memiliki ekosistem yang kaya dengan berbagai pustaka dan framework, yang mempercepat pengembangan aplikasi web modern dengan menyediakan komponen siap pakai dan alat bantu yang memudahkan pengelolaan status dan interaksi.Keunggulan lainnya adalah kemudahan integrasi dengan teknologi lain, seperti API.
+
+## 2. Jelaskan fungsi dari penggunaan await ketika kita menggunakan fetch()! Apa yang akan terjadi jika kita tidak menggunakan await?
+
+> Penggunaan await dalam konteks pemanggilan `fetch()` di JavaScript adalah untuk menangani operasi asinkron secara lebih efisien dan intuitif. Fungsi `fetch()` mengembalikan sebuah Promise, yang berarti bahwa hasil dari pemanggilan ini tidak langsung tersedia, melainkan akan tersedia di masa depan setelah proses pengambilan data selesai. Dengan menggunakan await, kita memberi tahu JavaScript untuk menunggu sampai Promise tersebut diselesaikan sebelum melanjutkan eksekusi kode di bawahnya. Dan kita dapat langsung menggunakan hasil dari `fetch()` tanpa harus menggunakan metode `.then()`.
+
+> Jika kita tidak menggunakan await, eksekusi kode akan berjalan tanpa menunggu hasil dari `fetch()`, yang dapat mengakibatkan berbagai masalah. Salah satunya, jika kita mencoba untuk mengakses data yang diambil sebelum Promise diselesaikan, yang kita dapatkan adalah nilai undefined atau kesalahan yang menunjukkan bahwa data belum tersedia.
+
+## 3.Mengapa kita perlu menggunakan decorator csrf_exempt pada view yang akan digunakan untuk AJAX POST?
+
+> Penggunaan decorator csrf_exempt digunakan untuk keamanan aplikasi. Secara default, Django melindungi aplikasi dari serangan Cross-Site Request Forgery (CSRF) dengan mengharuskan setiap permintaan POST untuk menyertakan token CSRF yang valid. Dalam konteks AJAX kita membuat permintaan POST dari klien kita sering kali tidak secara otomatis menyertakan token CSRF. Jika permintaan POST dikirim tanpa token yang valid, Django akan menolak permintaan tersebut dan mengembalikan kesalahan 403 Forbidden. Hal ini dapat menyebabkan aplikasi tidak berfungsi dengan baik karena tidak dapat memproses data yang dikirim dari klien.
+
+> Dengan menggunakan decorator csrf_exempt, kita memberi tahu Django untuk mengabaikan validasi CSRF pada view tertentu. Ini sangat berguna untuk endpoint API atau view yang secara eksklusif dirancang untuk menangani permintaan AJAX dari klien yang terpercaya.
+
+## 4.Pada tutorial PBP minggu ini, pembersihan data input pengguna dilakukan di belakang (backend) juga. Mengapa hal tersebut tidak dilakukan di frontend saja?
+
+> data input pengguna yang dilakukan di backend adalah langkah penting untuk menjaga keamanan dan integritas aplikasi. karena frontend dapat dengan mudah dimanipulasi oleh orang yang tidak bertanggung jawab. aplikasi menjadi rentan terhadap serangan seperti injeksi SQL atau Cross-Site Scripting (XSS).
+
+## 5. Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial)!
+
+**1.Menambahkan fungsi baru kedalam `view.py` yang mana fungsi tersebut berguna untuk menambhkan product mengunakan AJAX, serta memodifikasi passing argumen untuk fungsi `home`**
+
+```
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
+
+...
+@csrf_exempt
+@require_POST
+def create_product_ajax(request):
+    name = request.POST.get("name")
+    price = request.POST.get("price")
+    category = request.POST.get("category")
+    description = request.POST.get("description")
+    user = request.user
+
+    newProduct = Product(
+        name=name, price=price,
+        category=category,description=description,
+        user=user
+    )
+    newProduct.save()
+
+    return HttpResponse(b"CREATED", status=201)
+
+@login_required(login_url='/login/')
+def home(request):
+    detail = {
+        'nama_apps': 'Ngubin E-commerce',
+        'nama_mahasiswa': request.user.username,
+        'kelas' : 'PBP-A',
+        'NPM' : '1808561061',
+        'last_login': request.COOKIES['last_login'],
+    }
+
+    return render(request, 'main.html', detail)
+...
+```
+
+**2.Setelah menambahkanfungsi baru lalu hubungkan lah kedalam suatu url untuk digunakan**
+
+```
+from main.views import create_product_ajax
+
+...
+    path('create_product_ajax/', create_product_ajax, name='create_product_ajax'),
+....
+```
+
+**3.Menambhakan fungsi kedalam productForm kita yang berada pada `form.py` untuk nantinya bisa digunakan untuk validasi input user**
+
+```
+from django.utils.html import strip_tags
+
+...
+ def clean_name(self):
+        name = self.cleaned_data["name"]
+        return strip_tags(name)
+
+    def clean_description(self):
+        description = self.cleaned_data["description"]
+        return strip_tags(description)
+...
+```
+
+**4.Menambahkan button baru untuk menginput product dengan AJAX dan juga modal untuk menaruh formnya di html `main`**
+
+```
+...
+    <a href="{% url 'main:create_product' %}" class="animate-pulse bg-[#2ebdaa] hover:bg-[#008776] text-white font-bold py-2 px-4 rounded-lg transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105">
+        + Product
+    </a>
+    <button data-modal-target="crudModal" data-modal-toggle="crudModal" class="bg-[#2ebdaa] hover:bg-[#008776] text-white font-bold py-2 px-4 rounded-lg transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105" onclick="showModal();">
+        + Product by AJAX
+    </button>
+...
+...
+<div class="relative z-5 -mt-[220px] gap-6 mb-6 ">
+      <div id="product_container"></div>
+    </div>
+
+    <div id="crudModal" tabindex="-1" aria-hidden="true" class="hidden fixed inset-0 z-50 w-full flex items-center justify-center bg-gray-800 bg-opacity-50 overflow-x-hidden overflow-y-auto transition-opacity duration-300 ease-out">
+        <div id="crudModalContent" class="relative bg-white rounded-lg shadow-lg w-5/6 sm:w-3/4 md:w-1/2 lg:w-1/3 mx-4 sm:mx-0 transform scale-95 opacity-0 transition-transform transition-opacity duration-300 ease-out">
+          <!-- Modal header -->
+          <div class="flex items-center justify-between p-4 border-b rounded-t">
+            <h3 class="text-xl font-semibold text-gray-900">
+              Add New Product Entry
+            </h3>
+            <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center" id="closeModalBtn">
+              <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+              </svg>
+              <span class="sr-only">Close modal</span>
+            </button>
+          </div>
+          <!-- Modal body -->
+          <div class="px-6 py-4 space-y-6 form-style">
+            <form id="productEntryForm">
+              <div class="mb-4">
+                <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
+                <input type="text" id="name" name="name" class="mt-1 block w-full border border-gray-300 rounded-md p-2 hover:border-indigo-700" placeholder="Enter your name" required>
+              </div>
+              <div class="mb-4">
+                <label for="price" class="block text-sm font-medium text-gray-700">Price</label>
+                <input type="number" id="price" name="price" rows="3" min="0" class="mt-1 block w-full h-10 resize-none border border-gray-300 rounded-md p-2 hover:border-indigo-700" placeholder="Enter the price" required>
+              </div>
+              <div class="mb-4">
+                <label for="category" class="block text-sm font-medium text-gray-700">Category</label>
+                <input type="text" id="category" name="category"  class="mt-1 block w-full border border-gray-300 rounded-md p-2 hover:border-indigo-700" required>
+              </div>
+              <div class="mb-4">
+                <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
+                <textarea  id="description" name="description"  class="mt-1 block w-full border border-gray-300 rounded-md p-2 hover:border-indigo-700 h-32" required></textarea>
+              </div>
+            </form>
+          </div>
+          <!-- Modal footer -->
+          <div class="flex flex-col space-y-2 md:flex-row md:space-y-0 md:space-x-2 p-6 border-t border-gray-200 rounded-b justify-center md:justify-end">
+            <button type="button" class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-lg" id="cancelButton">Cancel</button>
+            <button type="submit" id="submitProduct" form="productEntryForm" class="bg-indigo-700 hover:bg-indigo-600 text-white font-bold py-2 px-4 rounded-lg">Save</button>
+          </div>
+        </div>
+      </div>
+
+...
+```
+
+**5.Menambahkan fungsi javascript yang akan di gunakan untuk membuat web kita lebih dinamis**
+
+```
+...
+<script>
+  async function getProductEntries(){
+      return fetch("{% url 'main:show_json_data' %}").then((res) => res.json())
+  }
+
+  async function refreshProduct() {
+    const productCard = document.getElementById("product_container");
+    productCard.innerHTML = "";
+    productCard.className = "";
+    const productEntries = await getProductEntries();
+    console.log(productEntries); // Debugging: lihat isi productEntries
+    let htmlString = "";
+    let classNameString = "";
+
+    if (productEntries.length === 0) {
+        console.log("Tidak ada produk, menampilkan pesan...");
+
+        classNameString = "flex flex-col items-center justify-center min-h-[24rem] p-6";
+        htmlString = `
+        <div class="flex flex-col items-center justify-center min-h-[24rem] p-6 -mt-[90px]">
+            <img src="{% static 'images/sad_face.png' %}" alt="Sad face" class="w-32 h-32 w-fit "/>
+            <p class="text-center text-white mt-4">Belum ada data product.</p>
+        </div>
+        `;
+    } else {
+        console.log("Ada produk, memproses data...");
+
+        classNameString = "columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6 w-full";
+        productEntries.forEach((item) => {
+            const name = DOMPurify.sanitize(item.fields.name);
+            const description = DOMPurify.sanitize(item.fields.description);
+            htmlString += `
+            <div class="relative break-inside-avoid h-[370px] w-[325px] rounded-3xl perspective" data-pk="{{ item.pk }}">
+                <div class="container" onclick="this.classList.toggle('flipped')">
+                    <!-- Card Front -->
+                    <div class="card front">
+                        <div class="p-6 flex flex-col justify-between items-center">
+                            <div class="flex justify-between w-[270px]">
+                                <a href="/edit-product/${item.pk}" class="bg-yellow-500 hover:bg-yellow-600 text-white rounded-full p-2 transition duration-300 shadow-md"  onclick="event.stopPropagation();">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                        <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
+                                    </svg>
+                                </a>
+
+                                <p class="font-medium text-md">${item.fields.category}</p>
+
+                                <a href="/delete/${item.pk}" class="bg-red-500 hover:bg-red-600 text-white rounded-full p-2 transition duration-300 shadow-md"  onclick="event.stopPropagation();">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                        <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
+                                    </svg>
+                                </a>
+                            </div>
+
+                            <div class="p-3 flex justify-center items-center flex-col relative">
+                                <img src="{% static 'images/ubin.png' %}" alt="foto ubin" class="h-48 w-48 relative z-10">
+                                <div class="w-[270px] h-32 bg-product-radial rounded-full absolute top-[95px] z-0"></div>
+                            </div>
+
+                            <div class="mt-4 flex flex-col items-center text-center overflow-hidden h-24">
+                                <p class="text-black font-bold text-md truncate">${name}</p> <!-- Gunakan line-clamp -->
+                                <p class="text-gray-700 font-semibold mb-2 truncate">${item.fields.price}</p>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- Card Back -->
+                    <div class="card back">
+                        <div class="p-6 flex flex-col justify-center items-center">
+                            <h3 class="text-white text-xl font-semibold">Detail Item</h3>
+                            <p class="text-gray-300 text-md mt-2 text-center">${description}</p>
+                            <div class="mt-4"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>`;
+        });
+    }
+
+    // Set className dan innerHTML sekali di sini setelah semua proses
+    productCard.className = classNameString;
+    productCard.innerHTML = htmlString;
+    console.log("HTML string setelah proses:", htmlString);
+    console.log("Elemen product_card:", productCard);
+}
+
+
+  refreshProduct();
+
+  const modal = document.getElementById('crudModal');
+  const modalContent = document.getElementById('crudModalContent');
+
+  function showModal() {
+      const modal = document.getElementById('crudModal');
+      const modalContent = document.getElementById('crudModalContent');
+
+      modal.classList.remove('hidden');
+      setTimeout(() => {
+        modalContent.classList.remove('opacity-0', 'scale-95');
+        modalContent.classList.add('opacity-100', 'scale-100');
+      }, 50);
+  }
+
+  function hideModal() {
+      const modal = document.getElementById('crudModal');
+      const modalContent = document.getElementById('crudModalContent');
+
+      modalContent.classList.remove('opacity-100', 'scale-100');
+      modalContent.classList.add('opacity-0', 'scale-95');
+
+      setTimeout(() => {
+        modal.classList.add('hidden');
+      }, 150);
+  }
+  function addNewProduct() {
+    fetch("{% url 'main:create_product_ajax' %}", {
+      method: "POST",
+      body: new FormData(document.querySelector('#productEntryForm')),
+    })
+    .then(response => refreshProduct())
+
+    document.getElementById("productEntryForm").reset();
+    document.querySelector("[data-modal-toggle='crudModal']").click();
+
+    return false;
+  }
+
+  document.getElementById("submitProduct").onclick = addNewProduct
+  document.getElementById("cancelButton").addEventListener("click", hideModal);
+  document.getElementById("closeModalBtn").addEventListener("click", hideModal);
+
+</script>
+
+...
+```
